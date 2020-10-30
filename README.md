@@ -66,7 +66,7 @@ Web interface is self explantory with function such as:
    ```	  
    curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "2020-10-31"}' -H 'Content-Type: application/json'
    ```
-    
+   Initially when a new task is added, its **status** by default is **Pending**. 
 2. Complete a task -
    
    ```

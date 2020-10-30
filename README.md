@@ -28,11 +28,13 @@ Requirements:
    $pip3 install Flask
    ```
 
-3. Unzip content of to_do_app.zip
+3. Download to_do_app.zip from Git or email.
 
-4. Go to unzipped directory where all folders, .py and .db files are stored.
+4. Unzip content of to_do_app.zip
 
-5. Go to terminal and execute command - 
+5. Go to unzipped directory where all folders, .py and .db files are stored.
+
+6. Go to terminal and execute command - 
    
    ```
    $python3 to_do_app.py

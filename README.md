@@ -53,6 +53,7 @@ Web interface is self explantory with function such as:
 * **Add a new to-do task**
 * **Edit/Delete/Mark complete the task**
 * **Filter tasks**
+* **Sort tasks by due date**
 
 ## Few utilities
 

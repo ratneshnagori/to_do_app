@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 SUCCESS='Success'
 FAILURE = 'Failure'
+sort_status = 0
 
 #Display webpage with all to-do tasks
 @app.route('/')
@@ -13,6 +14,19 @@ def home_page():
     data = db_functions.get_all_tasks()
     return render_template('to_do.html', data = data)
 
+#Trigger sorting by due date and display table
+@app.route('/toggleSorting')
+def home_page_sorted():
+    global sort_status
+    if sort_status == 0:
+        data = db_functions.get_all_tasks_sorted(sort_status)
+        sort_status = 1
+    else:
+        data = db_functions.get_all_tasks_sorted(sort_status)
+        sort_status = 0
+    
+    return render_template('to_do.html', data = data)
+    
 #For API call from CLI
 @app.route('/api/v1/all_tasks')
 def get_all_items():

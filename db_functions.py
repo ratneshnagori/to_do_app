@@ -16,6 +16,22 @@ def get_all_tasks():
     except Exception as e:
         print('Error: ', e)
         return None
+
+def get_all_tasks_sorted(sort_status):
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        
+        if sort_status == 0:
+            c.execute('select * from to_do order by duedate asc')
+        else:
+            c.execute('select * from to_do order by duedate desc')
+            
+        rows = c.fetchall()
+        return rows
+    except Exception as e:
+        print('Error: ', e)
+        return None
         
 def add_a_task(name, details, duedate):
     try:

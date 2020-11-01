@@ -9,11 +9,13 @@ app = Flask(__name__)
 SUCCESS='Success'
 FAILURE = 'Failure'
 sort_status = 0
-
+    
 #Display webpage with all to-do tasks
 @app.route('/app')
 def home_page():
+
     data = db_functions.get_all_tasks()
+        
     updated_data =[]
     for task in data:
         updated_data.append(get_tasks_with_days_left(task))
@@ -53,7 +55,6 @@ def add_task_from_html():
     task = req_data.get("task")
     duedate = req_data.get("duedate")
     details = req_data.get("details")
-    print(duedate)
     result = add_task(task, details, duedate)
     if "error" in result:
         return result
@@ -78,11 +79,13 @@ def add_task(*args):
 	        details = args[1]
 	        duedate = args[2]
 	    try:
-	        duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
-	    except:
-	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
-	        response = Response(json.dumps(error), mimetype='application/json')
-	        return response
+	        datetime.datetime.strptime(duedate, '%Y-%m-%d')
+	    except ValueError:
+	        try:
+	            duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
+	        except:
+	            error = "error: incorrect date format, must be DD/MM/YYYY"
+	            return error
 	        
 	    # Add item to the list
 	    db_data = db_functions.add_a_task(task, details, duedate)
@@ -102,8 +105,7 @@ def add_task(*args):
 	    error = {"Error": "There is some error with API call, please check its format"}
 	    if not datetime.datetime.strptime(duedate, '%d/%m/%Y'):
 	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
-	    response = Response(json.dumps(error), mimetype='application/json')
-	    return response 
+	    return error 
 
 #Wrapper when API call is made from Webpage
 @app.route('/edit_task_from_html', methods=['POST'])
@@ -115,9 +117,7 @@ def edit_task_from_html():
     duedate = req_data.get("duedate")
     details = req_data.get("details")
     status = req_data.get("status")
-    
     result = edit_task(task, details, duedate, status)
-    
     if "error" in result:
         return result
         
@@ -143,16 +143,17 @@ def edit_task(*args):
 	        duedate = args[2]
 	        status = args[3]
 	    try:
-	        duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
-	    except:
-	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
-	        response = Response(json.dumps(error), mimetype='application/json')
-	        return response
-	        
+	        datetime.datetime.strptime(duedate, '%Y-%m-%d')
+	    except ValueError:
+	        try:
+	            duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
+	        except:
+	            error = "error: incorrect date format, must be DD/MM/YYYY"
+	            return error
+        
 	    #edit item
 	    db_data = db_functions.update_task(task, details, duedate, status)
-
-	    # Return error if item not added
+	    # Return error if item not edited
 	    if db_data['Result'] == 'Failure':
 	        response = "error: task could not be edited, reason: " + db_data['Remark']
 	        return response
@@ -162,18 +163,15 @@ def edit_task(*args):
 	    return response
 	    
     except Exception as e:
-	    error = {"Error": "There is some error with API call, please check its format"}
-	    response = Response(json.dumps(error), mimetype='application/json')
-	    return response 
+	    error = "Error There is some error with API call, please check its format"
+	    return error 
 
 #Wrapper when API call is made from Webpage
 @app.route('/complete_task_from_html', methods=['POST'])
 def complete_task_from_html():
-    # Get details from the HTML form
-    req_data = request.form
-    
-    task = req_data.get("task")
-    
+    # Get task in JSON from frontend AJAX call
+
+    task = request.json['task']
     result = complete_task(task)
     
     if "error" in result:
@@ -264,7 +262,7 @@ def get_tasks_with_days_left(data):
     try:
         data_list = list(data)
         if data_list[3] == "Completed":
-            data_list.append(str(0))
+            data_list.append("-")
         else:
             current_date = datetime.date.today()
             task_duedate = datetime.datetime(int(data_list[2].split("-")[0]),int(data_list[2].split("-")[1]),int(data_list[2].split("-")[2])).date()

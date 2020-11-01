@@ -17,6 +17,17 @@ def get_all_tasks():
         print('Error: ', e)
         return None
 
+def get_all_tasks_pending():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute('select * from to_do where status=?', (PENDING))
+        rows = c.fetchall()
+        return rows
+    except Exception as e:
+        print('Error: ', e)
+        return None
+        
 def get_all_tasks_sorted(sort_status):
     try:
         conn = sqlite3.connect(DB_PATH)

@@ -5,7 +5,7 @@ This is a basic Web App to maintain a to-do list.
 Requirements:
 
 * Python3 with Flask framework
-* Moden browser
+* Modern browser
 * Terminal
 
 ### Installation instruction:

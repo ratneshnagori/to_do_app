@@ -57,7 +57,8 @@ Web interface is self explantory with function such as:
 
 ## Few utilities
 
-* **Current date at top for reference**
+* **Days left field for each task**
+* **Current date and time at top for reference**
 * **Total number of tasks at bottom**
 
 ## Interact with API using CLI
@@ -65,7 +66,7 @@ Web interface is self explantory with function such as:
 1. Add a task -
 	
    ```	  
-   curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "2020-10-31"}' -H 'Content-Type: application/json'
+   curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "30/11/2020"}' -H 'Content-Type: application/json'
    ```
    Initially when a new task is added, its **status** by default is **Pending**. 
 2. Complete a task -
@@ -77,7 +78,7 @@ Web interface is self explantory with function such as:
 3. Update a task-
    
    ```
-   curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "2020-10-31", "status":"Completed"}' -H 'Content-Type: application/json'
+   curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "23/11/2020", "status":"Completed"}' -H 'Content-Type: application/json'
    ```
    
 4. Delete task -

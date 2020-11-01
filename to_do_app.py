@@ -1,6 +1,8 @@
 import db_functions
 import json
 from flask import Flask, render_template, flash, request, Response
+from datetime import datetime
+import datetime
 
 app = Flask(__name__)
 
@@ -12,7 +14,10 @@ sort_status = 0
 @app.route('/')
 def home_page():
     data = db_functions.get_all_tasks()
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
 
 #Trigger sorting by due date and display table
 @app.route('/toggleSorting')
@@ -24,8 +29,10 @@ def home_page_sorted():
     else:
         data = db_functions.get_all_tasks_sorted(sort_status)
         sort_status = 0
-    
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
     
 #For API call from CLI
 @app.route('/api/v1/all_tasks')
@@ -52,7 +59,10 @@ def add_task_from_html():
         return result
         
     data = db_functions.get_all_tasks()
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
 
 #Function for API call to add a new task to DB using CLI. add_task_from_html() utilize this when call is made from webpage     
 @app.route('/api/v1/add_task', methods=['POST'])
@@ -104,7 +114,10 @@ def edit_task_from_html():
         return result
         
     data = db_functions.get_all_tasks()
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
 
 #Function for API call to edit a task in DB using CLI. edit_task_from_html() utilize this when call is made from webpage        
 @app.route('/api/v1/edit_task', methods=['PUT'])
@@ -153,7 +166,10 @@ def complete_task_from_html():
         return result
         
     data = db_functions.get_all_tasks()
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
 
 #Function for API call to complete a task in DB using CLI. complete_task_from_html() utilize this when call is made from webpage        
 @app.route('/api/v1/complete_task', methods=['PUT'])
@@ -197,7 +213,10 @@ def delete_task_from_html():
         return result
         
     data = db_functions.get_all_tasks()
-    return render_template('to_do.html', data = data)
+    updated_data =[]
+    for task in data:
+        updated_data.append(get_tasks_with_days_left(task))
+    return render_template('to_do.html', data = updated_data)
 
 #Function for API call to delete a task from DB using CLI. delete_task_from_html() utilize this when call is made from webpage            
 @app.route('/api/v1/delete_task', methods=['DELETE'])
@@ -226,5 +245,17 @@ def delete_task(*args):
 	    response = Response(json.dumps(error), mimetype='application/json')
 	    return response 
 
+def get_tasks_with_days_left(data):
+    data_list = list(data)
+    if data_list[3] == "Completed":
+        data_list.append(str(0))
+    else:
+        current_date = datetime.date.today()
+        task_duedate = datetime.datetime(int(data_list[2].split("-")[0]),int(data_list[2].split("-")[1]),int(data_list[2].split("-")[2])).date()
+        data_list.append(str((task_duedate-current_date).days))
+    data_list[2]=data_list[2].split("-")[2]+"/"+data_list[2].split("-")[1]+"/"+data_list[2].split("-")[0]
+    data = tuple(data_list)
+    return data
+    
 if __name__ == "__main__":                
     app.run()

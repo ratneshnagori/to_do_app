@@ -103,9 +103,6 @@ table.table td:last-child i {
 table.table td a {
 	font-weight: bold;
 	color: #566787;
-	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 	display: inline-block;
 	text-decoration: none;
 	outline: none !important;
@@ -192,7 +189,7 @@ $(document).ready(function(){
 						<p>Date/Time: <span id="datetime"></span></p>
 					</div>
 					<div class="col-sm-6">
-						<a href="#addtaskModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New To-Do Item</span></a>						
+						<button class="btn btn-success" data-toggle="modal" data-target="#addtaskModal" title="Add Task" style="border:2;">Add New To-Do Item (+)</button>
 					</div>
 				</div>
 			</div>
@@ -204,6 +201,7 @@ $(document).ready(function(){
 						<th class="" style="width:250px">Details</th>
 						<th class="">Due Date<form action="/toggleSorting" method="GET"><button class="fa fa-sort" aria-hidden="true" type="submit"></button></form></th>
 						<th class="">Status</th>
+						<th class="">Days Left</th>
 						<th class="" style="width:240px">Actions</th>
 					</tr>
 				</thead>
@@ -214,6 +212,7 @@ $(document).ready(function(){
 					<td class="">{{ row[1] }}</td>
 					<td class="">{{ row[2] }}</td>
 					<td class="">{{ row[3] }}</td>
+					<td class="">{{ row[4] }}</td>
 					<td>
 					    <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#infoModal" title="View Task">Info</button>
   						<button class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal" title="Edit Task">Edit</button>
@@ -230,7 +229,33 @@ $(document).ready(function(){
 <script>
 
 var dt = new Date();
-document.getElementById("datetime").innerHTML = dt.toLocaleDateString('zh-Hans-CN');
+document.getElementById("datetime").innerHTML = dt.toLocaleString('en-AU');
+
+$(".btn[data-target='#addtaskModal']").click(function() {
+		$('.modal-body').html("");
+       var columnHeadings = $("thead th").map(function() {
+                 return $(this).text();
+              }).get();
+       columnHeadings.pop();
+       var columnValues = $(this).parent().siblings().map(function() {
+                 return $(this).text();
+       }).get();
+  var modalBody = $('<div id="modalContent"></div>');
+  var formGroup = $('<div class="form-group"></div>');
+  formGroup.append('<label>To-Do</label>');
+  formGroup.append('<input type="text" class="form-control" name="task" id="task" value=""/>'); 
+  formGroup.append('<label>Details</label>');
+  formGroup.append('<textarea class="form-control" name="details" id="details" maxlength="500"></textarea>'); 
+  formGroup.append('<label>Due Date</label>');
+  formGroup.append('<input type="date" class="form-control" name="duedate" id="duedate" value=""/>');  
+  formGroup.append('<label>Status</label><br>');
+  
+  modalBody.append(formGroup);
+  $('.modal-body').html(modalBody);
+});
+$('.modal-footer .btn-primary').click(function() {
+   $('form[name="modalForm"]').submit();
+});
 
 $(".btn[data-target='#editModal']").click(function() {
        var columnHeadings = $("thead th").map(function() {
@@ -366,8 +391,10 @@ $(".btn[data-target='#doneModal']").click(function() {
             <div class="modal-body"></div>
             <div class="modal-footer">
                 <p>Are you sure you want to delete these Records?</p>
+                <p>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary btn-danger">Delete</button>
+                </p>
             </div>
 		</form>
         </div>
@@ -406,8 +433,10 @@ $(".btn[data-target='#doneModal']").click(function() {
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <form action="/delete_task_from_html" method="POST"><button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button></form>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <a type="button" href="#deleteModal" class="btn btn-danger btn-sm" data-toggle="modal" data-dismiss="modal">Delete</a>
+                <a type="button" href="#editModal" class="btn btn-warning btn-sm" data-toggle="modal" data-dismiss="modal">Edit</a>
+                <a type="button" href="#doneModal" class="btn btn-success btn-sm" data-toggle="modal" data-dismiss="modal">Mark Complete</a>
+                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">OK</button>
             </div>
 		</form>
         </div>

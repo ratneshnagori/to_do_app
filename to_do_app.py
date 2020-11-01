@@ -53,7 +53,7 @@ def add_task_from_html():
     task = req_data.get("task")
     duedate = req_data.get("duedate")
     details = req_data.get("details")
-    
+    print(duedate)
     result = add_task(task, details, duedate)
     if "error" in result:
         return result
@@ -77,6 +77,12 @@ def add_task(*args):
 	        task = args[0]
 	        details = args[1]
 	        duedate = args[2]
+	    try:
+	        duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
+	    except:
+	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
+	        response = Response(json.dumps(error), mimetype='application/json')
+	        return response
 	        
 	    # Add item to the list
 	    db_data = db_functions.add_a_task(task, details, duedate)
@@ -94,6 +100,8 @@ def add_task(*args):
 	    
     except Exception as e:
 	    error = {"Error": "There is some error with API call, please check its format"}
+	    if not datetime.datetime.strptime(duedate, '%d/%m/%Y'):
+	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
 	    response = Response(json.dumps(error), mimetype='application/json')
 	    return response 
 
@@ -134,6 +142,12 @@ def edit_task(*args):
 	        details = args[1]
 	        duedate = args[2]
 	        status = args[3]
+	    try:
+	        duedate = datetime.datetime.strptime(duedate, '%d/%m/%Y').strftime('%Y-%m-%d')
+	    except:
+	        error = {"Error": "Incorrect date format, must be DD/MM/YYYY"}
+	        response = Response(json.dumps(error), mimetype='application/json')
+	        return response
 	        
 	    #edit item
 	    db_data = db_functions.update_task(task, details, duedate, status)

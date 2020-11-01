@@ -57,7 +57,8 @@ Web interface is self explantory with function such as:
 
 ## Few utilities
 
-* **Current date at top for reference**
+* **Days left field for each task**
+* **Current date and time at top for reference**
 * **Total number of tasks at bottom**
 
 ## Interact with API using CLI

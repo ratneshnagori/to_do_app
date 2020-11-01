@@ -62,10 +62,10 @@ Web interface is self explantory with function such as:
 ## Few utilities
 
 * **Days left field for each task**
-* **Current date and time at top for reference**
+* **Current date at top for reference**
 * **Total number of tasks at bottom**
-* **Filter tasks by status**
-* **Red highlight for tasks due past target date**
+* **Filter tasks by their status**
+* **Red highlight for tasks which are due past target date**
 
 ## Interact with API using CLI
 

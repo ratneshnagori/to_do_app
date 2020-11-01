@@ -46,6 +46,10 @@ Go to browser and enter below URL in address bar-
 
 http://127.0.0.1:5000/app
 
+## App behaviour
+
+* Once a task is added, the name cannot be edited because at the moment **name** serve as primary key for task in database and has to be unique.
+
 ## Web interface
 
 Web interface is self explantory with function such as:

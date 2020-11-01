@@ -1,13 +1,13 @@
 1.Add a task -
 
   1.1 Pass:
-	  curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "2020-10-31"}' -H 'Content-Type: application/json'
+	  curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "30/11/2020"}' -H 'Content-Type: application/json'
 	  
   1.2 Fail:
       1.2.1 API Error:
-	    curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X"}' -H 'Content-Type: application/json'
+		    curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X"}' -H 'Content-Type: application/json'
       1.2.2 Existing Task:
-	    curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "2020-10-31"}' -H 'Content-Type: application/json'
+	        curl -X POST http://127.0.0.1:5000/api/v1/add_task -d '{"task": "Task1", "details": "Contact John Doe about project X", "duedate": "30/11/2020"}' -H 'Content-Type: application/json'
 
 2. Complete a task -
 
@@ -23,19 +23,19 @@
 3. Update a task-
 
 3.1 Pass:
-    curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "2020-10-31", "status":"Completed"}' -H 'Content-Type: application/json'
+	  curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "30/11/2020", "status":"Completed"}' -H 'Content-Type: application/json'
 3.2 Fail:
     3.2.1 API Error:
- 	  curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too."}' -H 'Content-Type: application/json'
-    3.2.2 Invalid status:
-          curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "2020-10-31", "status":"Complete"}' -H 'Content-Type: application/json'
+ 	      curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too."}' -H 'Content-Type: application/json'
+ 	3.2.2 Invalid status:
+          curl -X PUT http://127.0.0.1:5000/api/v1/edit_task -d '{"task": "Task1", "details": "Contact John Doe about project X and arrange meeting too.", "duedate": "30/11/2020", "status":"Complete"}' -H 'Content-Type: application/json'
    
 4. Delete task -
   4.1 Pass:       
       curl -X DELETE http://127.0.0.1:5000/api/v1/delete_task -d '{"task": "Task1"}' -H 'Content-Type: application/json'
   4.2 Fail:
       4.2.1 API Error:       
-      curl -X DELETE http://127.0.0.1:5000/api/v1/delete_task -H 'Content-Type: application/json'
+            curl -X DELETE http://127.0.0.1:5000/api/v1/delete_task -H 'Content-Type: application/json'
             
 5. Get all task - 
 Pass: curl -X GET http://127.0.0.1:5000/api/v1/all_tasks

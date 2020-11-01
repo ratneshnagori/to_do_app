@@ -245,17 +245,24 @@ def delete_task(*args):
 	    response = Response(json.dumps(error), mimetype='application/json')
 	    return response 
 
+#Function to calculate number of days left for task and add date in dd/mm/yyyy format in task tuple
 def get_tasks_with_days_left(data):
-    data_list = list(data)
-    if data_list[3] == "Completed":
-        data_list.append(str(0))
-    else:
-        current_date = datetime.date.today()
-        task_duedate = datetime.datetime(int(data_list[2].split("-")[0]),int(data_list[2].split("-")[1]),int(data_list[2].split("-")[2])).date()
-        data_list.append(str((task_duedate-current_date).days))
-    data_list[2]=data_list[2].split("-")[2]+"/"+data_list[2].split("-")[1]+"/"+data_list[2].split("-")[0]
-    data = tuple(data_list)
-    return data
-    
+    try:
+        data_list = list(data)
+        if data_list[3] == "Completed":
+            data_list.append(str(0))
+        else:
+            current_date = datetime.date.today()
+            task_duedate = datetime.datetime(int(data_list[2].split("-")[0]),int(data_list[2].split("-")[1]),int(data_list[2].split("-")[2])).date()
+            data_list.append(str((task_duedate-current_date).days))
+        data_list.append(data_list[2].split("-")[2]+"/"+data_list[2].split("-")[1]+"/"+data_list[2].split("-")[0])
+        data = tuple(data_list)
+        
+        return data
+    except Exception as e:
+	    error = {"Error": "Issue while updating date on task"}
+	    response = Response(json.dumps(error), mimetype='application/json')
+	    return response
+	    
 if __name__ == "__main__":                
     app.run()

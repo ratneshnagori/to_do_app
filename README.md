@@ -8,6 +8,8 @@ Requirements:
 * Modern browser
 * Terminal
 
+### Refer to app_design.pptx for high level overview
+
 ### Installation instruction:
 
 1. Download and install python3 - [Download](https://www.python.org/downloads/)

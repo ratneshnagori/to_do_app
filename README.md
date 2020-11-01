@@ -56,7 +56,7 @@ Web interface is self explantory with function such as:
 
 * **Add a new to-do task**
 * **Edit/Delete/Mark complete the task**
-* **Filter tasks**
+* **Filter tasks by pattern**
 * **Sort tasks by due date**
 
 ## Few utilities
@@ -64,6 +64,8 @@ Web interface is self explantory with function such as:
 * **Days left field for each task**
 * **Current date and time at top for reference**
 * **Total number of tasks at bottom**
+* **Filter tasks by status*
+* **Red highlight for tasks due past target date**
 
 ## Interact with API using CLI
 

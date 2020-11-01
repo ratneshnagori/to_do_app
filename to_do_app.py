@@ -11,7 +11,7 @@ FAILURE = 'Failure'
 sort_status = 0
 
 #Display webpage with all to-do tasks
-@app.route('/')
+@app.route('/app')
 def home_page():
     data = db_functions.get_all_tasks()
     updated_data =[]

@@ -386,24 +386,6 @@ $('.modal-footer .btn-primary').click(function() {
    $('form[name="modalForm"]').submit();
 });
 
-$(".btn[data-target='#doneModal']").click(function() {
-       var columnHeadings = $("thead th").map(function() {
-                 return $(this).text();
-              }).get();
-       columnHeadings.pop();
-       var columnValues = $(this).parent().siblings().map(function() {
-                 return $(this).text();
-       }).get();
-  var modalBody = $('<div id="modalContent"></div>');
-  var formGroup = $('<div class="form-group"></div>');
-  formGroup.append('<label>To-Do</label>');
-  formGroup.append('<input type="text" class="form-control" name="task" id="task" value="'+columnValues[0]+'" readonly/>'); 
-  formGroup.append('<label>Status</label>');
-  formGroup.append('<input type="text" class="form-control" name="status" id="status" value="'+columnValues[3]+'" readonly/>');
-  modalBody.append(formGroup);
-  $('.modal-body').html(modalBody);
-});
-
 function filterTable() {
 
   let dropdown, table, rows, cells, status, filter;
@@ -460,26 +442,6 @@ function filterTable() {
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary btn-danger">Delete</button>
                 </p>
-            </div>
-		</form>
-        </div>
-    </div>
-</div>
-
-<!-- done Modal HTML -->
-<div class="modal fade" id="doneModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <form action = "/complete_task_from_html" method="POST">
-            <div class="modal-header">
-                 <h4 class="doneModal" id="doneModal" style="color:black;">Mark Complete</h4>
-                <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-success btn-success">Mark Complete</button>
             </div>
 		</form>
         </div>

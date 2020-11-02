@@ -219,7 +219,7 @@ $(document).ready(function(){
 					<td class="">{{ row[1] }}</td>
 					<td class=""  style="text-align:center;">{{ row[5] }}</td>
 					<td class="" style="text-align:center;">{{ row[3] }}</td>
-					{% if row[4]|int >= 0 or row[4] == '-' %}
+					{% if row[4]|int > 0 or row[4] == '-' %}
 					     <td class="" style="text-align:center;">{{ row[4] }}</td>
 					{% elif row[4]|int == 0 %}
 					     <td class="" style="text-align:center; background-color:#FFFF99">{{ row[4] }}</td>
